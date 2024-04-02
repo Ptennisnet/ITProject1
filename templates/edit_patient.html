@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Edit Patient</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -34,7 +34,7 @@
         }
 
         input[type="text"],
-        input[type="password"] {
+        input[type="date"] {
             width: 100%;
             padding: 10px;
             margin-bottom: 20px;
@@ -60,15 +60,15 @@
     </style>
 </head>
 <body>
-    <h2>Login</h2>
+    <h2>Edit Patient Information</h2>
 
-    <form method="post" action="{% url 'login' %}">
+    <form method="post">
         {% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
-        <button type="submit">Login</button>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="{{ patient.name }}"><br>
+        <label for="date_of_birth">Date of Birth:</label>
+        <input type="date" id="date_of_birth" name="date_of_birth" value="{{ patient.date_of_birth }}"><br><br>
+        <button type="submit">Save Changes</button>
     </form>
 </body>
 </html>

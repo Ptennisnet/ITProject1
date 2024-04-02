@@ -25,6 +25,6 @@ urlpatterns = [
     path('doctors/', include('doctors.urls')),
     path('', include('accounts.urls')),  # Include URLs from the accounts app
     path('', home_view, name='home'),
-
+    path('patients/', include('patients.urls')),  # Include URLs from the patients app
 ]
 

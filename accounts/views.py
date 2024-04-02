@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm
+from patients.models import Patient
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -17,4 +19,5 @@ def login_view(request):
     return render(request, 'login.html', {'form': form})
 
 def home_view(request):
-    return render(request, 'home.html')
+    patients = Patient.objects.all()  # Fetch all patients from the database
+    return render(request, 'home.html', {'patients': patients})
