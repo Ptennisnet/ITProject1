@@ -10,5 +10,7 @@ urlpatterns = [
     path('patient-records/', patient_records, name='patient_records'),
     path('patients/<int:patient_id>/medical-records/<int:record_id>/', views.medical_record_view,
          name='medical_record_view'),
+    path('ventilator/control/', views.ventilator_control, name='ventilator_control'),
+    path('security/', views.security_page, name='security_control'),
 
 ]

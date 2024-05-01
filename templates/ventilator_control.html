@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventilator Control</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        select, input[type="range"] {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #ventilatorStatus {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            font-style: italic;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ventilator Control</h1>
+
+        <!-- Mode Selection -->
+        <label for="ventilatorMode">Ventilation Mode:</label>
+        <select id="ventilatorMode">
+            <option value="assistControl">Assist-Control</option>
+            <option value="pressureControl">Pressure-Control</option>
+            <option value="volumeControl">Volume-Control</option>
+        </select>
+
+        <!-- Alarm Settings -->
+        <h2>Alarm Settings</h2>
+        <label><input type="checkbox" id="highPressureAlarm">High Pressure Alarm</label><br>
+        <label><input type="checkbox" id="lowPressureAlarm">Low Pressure Alarm</label><br>
+        <label><input type="checkbox" id="apneaAlarm">Apnea Alarm</label><br>
+        <label><input type="checkbox" id="disconnectionAlarm">Disconnection Alarm</label><br>
+
+        <!-- FiO2 Control -->
+        <label for="fiO2">FiO2 (Fraction of Inspired Oxygen):</label>
+        <input type="range" id="fiO2" name="fiO2" min="21" max="100" value="21">
+
+        <!-- Submit Button -->
+        <button type="button" onclick="submitVentilatorForm()">Apply Settings</button>
+
+        <!-- Ventilator Status -->
+        <p id="ventilatorStatus"></p>
+    </div>
+
+    <script>
+        function submitVentilatorForm() {
+            var mode = document.getElementById("ventilatorMode").value;
+            var highPressureAlarm = document.getElementById("highPressureAlarm").checked;
+            var lowPressureAlarm = document.getElementById("lowPressureAlarm").checked;
+            var apneaAlarm = document.getElementById("apneaAlarm").checked;
+            var disconnectionAlarm = document.getElementById("disconnectionAlarm").checked;
+            var fiO2 = document.getElementById("fiO2").value;
+
+            // Simulate sending the data to the server (replace with actual AJAX request)
+            setTimeout(function() {
+                var statusMessage = "Settings Applied:<br>" +
+                                    "<strong>Mode:</strong> " + mode + "<br>" +
+                                    "<strong>Alarms:</strong> High Pressure: " + highPressureAlarm + ", Low Pressure: " + lowPressureAlarm + ", Apnea: " + apneaAlarm + ", Disconnection: " + disconnectionAlarm + "<br>" +
+                                    "<strong>FiO2:</strong> " + fiO2;
+                document.getElementById("ventilatorStatus").innerHTML = statusMessage;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

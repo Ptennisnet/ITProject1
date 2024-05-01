@@ -28,5 +28,5 @@ urlpatterns = [
     path('', home_view, name='home'),
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('patients/', include('patients.urls')),  # Include URLs from the patients app
-]
+    ]
 

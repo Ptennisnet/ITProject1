@@ -12,7 +12,6 @@ from .models import Patient, MedicalRecord
 from .forms import MedicalRecordForm, PatientForm
 
 
-
 @login_required
 def edit_patient_view(request, patient_id):
     # Retrieve the patient object from the database
@@ -93,3 +92,9 @@ def patient_records(request):
 def medical_record_detail_view(request, patient_id, record_id):
     medical_record = get_object_or_404(MedicalRecord, pk=record_id)
     return render(request, 'medical_record_detail.html', {'medical_record': medical_record})
+
+def ventilator_control(request):
+    # You can add logic here to handle ventilator control settings
+    return render(request, 'ventilator_control.html')
+def security_page(request):
+    return render(request, 'security_control.html')

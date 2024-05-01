@@ -116,6 +116,10 @@
         {% else %}
             <p>You are not logged in. Please <a href="{% url 'login' %}">login</a>.</p>
         {% endif %}
+
+        <!-- Add links to other pages -->
+        <a href="{% url 'ventilator_control' %}">Ventilator Control</a><br>
+        <a href="{% url 'security_control' %}">Security Control</a>
     </div>
 </body>
 </html>
