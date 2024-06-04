@@ -8,11 +8,15 @@ class Patient(models.Model):
     def __str__(self):
         return self.name
 
+
+
 class MedicalRecord(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)  # Add a field for the title
+    description = models.TextField()  # Add a field for the description
     diagnosis = models.CharField(max_length=100)
     date_created = models.DateTimeField(default=timezone.now)
+    # Other fields and methods here
 
     def save(self, *args, **kwargs):
         if not self.title:  # Set the title if not provided

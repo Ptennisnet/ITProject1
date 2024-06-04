@@ -21,12 +21,15 @@ from accounts.views import login_view
 from .views import home_view
 from django.contrib.auth import views as auth_views
 
+from django.contrib import admin
+from django.urls import path, include
+from patients import views as patient_views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('doctors/', include('doctors.urls')),
-    path('', include('accounts.urls')),  # Include URLs from the accounts app
-    path('', home_view, name='home'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
-    path('patients/', include('patients.urls')),  # Include URLs from the patients app
-    ]
+    path('', patient_views.home_view, name='home'),
+    path('login/', patient_views.login_view, name='login'),
+    path('logout/', patient_views.logout_view, name='logout'),
+    path('patients/', include('patients.urls')),
+]
 
