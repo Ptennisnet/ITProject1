@@ -47,7 +47,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'patients.middleware.IHLHeaderMiddleware',
+    'patients.middleware.IHLInfoHeaderMiddleware',
+    'patients.middleware.IHLCertificateHeaderMiddleware',
 ]
 
 ROOT_URLCONF = 'ITProject1EHR.urls'
