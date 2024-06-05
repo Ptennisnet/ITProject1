@@ -11,7 +11,8 @@ class IHLInfoHeaderMiddleware:
 
         response['X-IHL-Protection-Header'] = ('This digital infrastructure is protected under humanitarian law. '
                                                'Any unauthorised interference with this digital system may be '
-                                               'prosecutable under Geneva Conventions IV Article 18.')
+                                               'prosecutable under Geneva Conventions IV Article 18. Please see the '
+                                               'certificate above for verification.')
         return response
 
 
