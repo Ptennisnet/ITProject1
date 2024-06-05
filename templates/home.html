@@ -7,14 +7,14 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
             margin: 0;
             padding: 0;
-            background-color: #f2f2f2;
         }
 
         .container {
             max-width: 800px;
-            margin: auto;
+            margin: 20px auto;
             padding: 20px;
             background-color: #fff;
             border-radius: 8px;
@@ -27,187 +27,82 @@
             margin-bottom: 30px;
         }
 
-        form {
-            margin-bottom: 20px;
-        }
-
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="date"],
-        select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        button[type="submit"],
-        button,
-        .dropbtn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
+        /* Styling for the welcome message */
+        .welcome-message {
+            font-size: 20px;
+            color: #4CAF50;
             margin-bottom: 10px;
         }
 
-        button[type="submit"]:hover,
-        button:hover,
-        .dropbtn:hover {
+        /* Styling for the logout button */
+        .logout-btn {
+            background-color: #007bff;
+            padding: 10px 20px;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            margin-right: 10px; /* Add margin to separate from the management button */
+        }
+
+        .logout-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Styling for the management button */
+        .manage-btn {
+            display: block;
+            margin: 20px auto; /* Center the button */
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .manage-btn:hover {
             background-color: #45a049;
         }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            border-bottom: 1px solid #ddd;
-            padding: 10px 0;
-        }
-
-        li:last-child {
-            border-bottom: none;
-        }
-
-        .edit-link {
-            color: #007bff;
-            text-decoration: none;
-            margin-left: 10px;
-        }
-
-        /* Style for the dropdown */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-            z-index: 1;
-            border-radius: 5px;
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
+        /* Styling for the control buttons */
+        .control-btn {
             display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
+            margin: 10px auto; /* Center the button */
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
             border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 200px; /* Adjust width as needed */
+            text-align: center;
+            text-decoration: none;
         }
 
-        .show {
-            display: block;
+        .control-btn:hover {
+            background-color: #0056b3;
         }
-
-        /* Style for the search bar */
-        #myInput {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
     </style>
 </head>
 <body>
     <div class="container">
+    <h2>Hospital Patient Database</h2>
         {% if user.is_authenticated %}
-            <p>Welcome, Dr. {{ user.first_name }} {{ user.last_name }}!</p>
-            <p><a href="{% url 'logout' %}">Log out</a></p>
+            <p class="welcome-message">Welcome, Dr. {{ user.first_name }} {{ user.last_name }}!</p>
+            <a href="{% url 'logout' %}" class="logout-btn">Log out</a>
+            <!-- Change link to button -->
+            <button onclick="window.location.href='{% url 'patient_management' %}'" class="manage-btn">Go to Management Page</button>
+            <a href="{% url 'ventilator_control' %}" class="control-btn">Ventilator Control</a>
+            <a href="{% url 'security_control' %}" class="control-btn">Security Control</a>
         {% endif %}
 
-        <h2>Hospital Patient Database</h2>
 
-        <!-- Add Patient Form -->
-        <form method="post" action="{% url 'add_patient' %}">
-            {% csrf_token %}
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required><br>
-            <label for="date_of_birth">Date of Birth:</label>
-            <input type="date" id="date_of_birth" name="date_of_birth" required><br><br>
-            <button type="submit">Add Patient</button>
-        </form>
 
-        {% if user.is_authenticated %}
-            <!-- Display patient database as dropdown -->
-            <h3>Patients:</h3>
-            <div class="dropdown">
-                <button onclick="toggleDropdown()" class="dropbtn">Select Patient</button>
-                <div id="myDropdown" class="dropdown-content">
-                    <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction(event)">
-                    {% for patient in patients %}
-                        <a href="{% url 'patient_detail' patient.id %}">{{ patient.name }}</a>
-                    {% endfor %}
-                </div>
-            </div>
-        {% else %}
-            <p>You are not logged in. Please <a href="{% url 'login' %}">login</a>.</p>
-        {% endif %}
+        <!-- You can add other content here if needed -->
 
-        <!-- Add links to other pages -->
-        <button onclick="window.location.href='{% url 'ventilator_control' %}'">Ventilator Control</button><br>
-        <button onclick="window.location.href='{% url 'security_control' %}'">Security Control</button>
     </div>
-
-    <!-- Script for dropdown functionality -->
-    <script>
-        function toggleDropdown() {
-            document.getElementById("myDropdown").classList.toggle("show");
-        }
-
-        function filterFunction(event) {
-            event.stopPropagation(); // Prevent event from propagating to parent
-            var input, filter, ul, li, a, i;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            div = document.getElementById("myDropdown");
-            a = div.getElementsByTagName("a");
-            for (i = 0; i < a.length; i++) {
-                txtValue = a[i].textContent || a[i].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
-                }
-            }
-        }
-
-        // Close the dropdown menu if the user clicks outside of it
-        window.onclick = function(event) {
-            if (!event.target.matches('.dropbtn')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                var i;
-                for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
-        }
-    </script>
 </body>
 </html>

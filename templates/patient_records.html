@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Records</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .patient-record {
+            background-color: #f2f2f2;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .patient-record h2 {
+            color: #007bff;
+            margin-top: 0;
+        }
+
+        .patient-record p {
+            margin: 10px 0;
+        }
+
+        .patient-record a {
+            display: block;
+            margin-top: 10px;
+            color: #fff;
+            background-color: #007bff;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            width: fit-content;
+        }
+
+        .patient-record a:hover {
+            background-color: #0056b3;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        .search-bar input[type="text"] {
+            padding: 10px;
+            width: 70%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .search-bar button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .search-bar button:hover {
+            background-color: #0056b3;
+        }
+
+        .search-bar input[type="text"]::placeholder {
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Patient Records</h1>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <!-- Your search form here -->
+        </div>
+
+        <!-- Display patient records here -->
+        {% for patient in patients %}
+            <div class="patient-record">
+                <h2>{{ patient.name }}</h2>
+                <p><strong>Date of Birth:</strong> {{ patient.date_of_birth }}</p>
+
+                <!-- Display medical records for this patient -->
+                <h3>Medical Records:</h3>
+                <ul>
+                    {% for record in patient.medicalrecord_set.all %}
+                        <li>{{ record.title }} - {{ record.diagnosis }} - {{ record.date_created }}</li>
+                        <!-- Add other medical record details as needed -->
+                    {% endfor %}
+                </ul>
+
+                <!-- Links for editing patient and viewing medical records -->
+                <a href="{% url 'edit_patient' patient.id %}">Edit Patient</a>
+                <a href="{% url 'patient_detail' patient.id %}">View Medical Records</a>
+
+                <!-- Form for removing the patient -->
+                <form method="post" action="{% url 'remove_patient' patient.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Remove</button>
+                </form>
+            </div>
+        {% empty %}
+            <p>No patient records found.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
