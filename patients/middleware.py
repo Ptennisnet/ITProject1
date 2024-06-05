@@ -1,3 +1,4 @@
+import base64
 import os
 
 
@@ -23,8 +24,9 @@ class IHLCertificateHeaderMiddleware:
 
         directory = os.path.dirname(__file__)
         certificate_path = os.path.join(directory[:-8], 'IHLCertificate/certificate.pem')
-        with open(certificate_path) as cert_file:
+        with open(certificate_path, 'rb') as cert_file:
             certificate = cert_file.read()
+        encoded_cert = base64.b64encode(certificate).decode('utf-8')
 
-        response['X-IHL-Certificate-Header'] = certificate
+        response['X-IHL-Certificate-Header'] = encoded_cert
         return response
