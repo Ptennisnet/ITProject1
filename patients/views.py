@@ -90,9 +90,13 @@ def patient_records(request):
     patients = Patient.objects.all()
     return render(request, 'patient_records.html', {'patients': patients})
 @login_required
-def search_patient(request):
-    # Your search logic here
-    return render(request, 'search_patient.html')  # Assuming you have a template named 'search_patient.html'
+def patient_records(request):
+    query = request.GET.get('query')
+    if query:
+        patients = Patient.objects.filter(name__icontains=query)
+    else:
+        patients = Patient.objects.all()
+    return render(request, 'patient_records.html', {'patients': patients, 'query': query})
 @login_required
 def patient_management(request):
     # Assuming you have some logic here to fetch data or perform other operations
@@ -100,14 +104,10 @@ def patient_management(request):
     return render(request, 'patient_management.html')
 @login_required
 def remove_patient(request, patient_id):
-    # Retrieve the patient object from the database
-    patient = get_object_or_404(Patient, pk=patient_id)
-
-    # Delete the patient from the database
+    patient = get_object_or_404(Patient, id=patient_id)
     patient.delete()
+    return redirect('patient_records')
 
-    # Redirect to the patient records page or any other appropriate page
-    return redirect(reverse('patient_records'))
 @login_required
 def medical_record_view(request, patient_id, record_id):
     # Retrieve the medical record object from the database
@@ -115,3 +115,11 @@ def medical_record_view(request, patient_id, record_id):
 
     # Assuming you have a template named 'medical_record_detail.html'
     return render(request, 'medical_record_detail.html', {'medical_record': medical_record})
+
+def search_patient(request):
+    query = request.GET.get('query')
+    if query:
+        patients = Patient.objects.filter(name__icontains=query)
+    else:
+        patients = Patient.objects.all()
+    return render(request, 'patient_records.html', {'patients': patients, 'query': query})

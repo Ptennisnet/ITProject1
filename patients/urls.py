@@ -9,7 +9,9 @@ from .views import (
     ventilator_control,
     security_page,
     logout_view,
-    search_patient,  # Import the search_patient view
+    remove_patient,
+    search_patient,
+      # Import the search_patient view
     medical_record_view  # Import the MedicalRecordView class
 )
 
@@ -22,9 +24,9 @@ urlpatterns = [
     path('ventilator/control/', ventilator_control, name='ventilator_control'),
     path('security/', security_page, name='security_control'),
     path('logout/', logout_view, name='logout'),
-    path('search/', search_patient, name='search_patient'),  # Correctly include the search_patient URL pattern
+    path('search-patient/', search_patient, name='search_patient'),
     path('management/', views.patient_management, name='patient_management'),  # Corrected the view function name
-    path('patients/remove/<int:patient_id>/', views.remove_patient, name='remove_patient'),
+    path('remove-patient/<int:patient_id>/', remove_patient, name='remove_patient'),
     path('patients/<int:patient_id>/records/<int:record_id>/', views.medical_record_view, name='medical_record_view'),
     # Other URL patterns...
 ]

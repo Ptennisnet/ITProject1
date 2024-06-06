@@ -11,7 +11,6 @@
             margin: 0;
             padding: 0;
         }
-
         .container {
             max-width: 800px;
             margin: 20px auto;
@@ -20,29 +19,24 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
         h1 {
             color: #333;
             text-align: center;
             margin-bottom: 30px;
         }
-
         .patient-record {
             background-color: #f2f2f2;
             padding: 15px;
             margin-bottom: 20px;
             border-radius: 8px;
         }
-
         .patient-record h2 {
             color: #007bff;
             margin-top: 0;
         }
-
         .patient-record p {
             margin: 10px 0;
         }
-
         .patient-record a {
             display: block;
             margin-top: 10px;
@@ -53,15 +47,12 @@
             border-radius: 5px;
             width: fit-content;
         }
-
         .patient-record a:hover {
             background-color: #0056b3;
         }
-
         .search-bar {
             margin-bottom: 20px;
         }
-
         .search-bar input[type="text"] {
             padding: 10px;
             width: 70%;
@@ -69,7 +60,6 @@
             border: 1px solid #ccc;
             font-size: 16px;
         }
-
         .search-bar button {
             padding: 10px 20px;
             border: none;
@@ -79,13 +69,8 @@
             cursor: pointer;
             font-size: 16px;
         }
-
         .search-bar button:hover {
             background-color: #0056b3;
-        }
-
-        .search-bar input[type="text"]::placeholder {
-            color: #aaa;
         }
     </style>
 </head>
@@ -95,7 +80,10 @@
 
         <!-- Search Bar -->
         <div class="search-bar">
-            <!-- Your search form here -->
+            <form action="{% url 'search_patient' %}" method="GET">
+                <input type="text" id="search" name="query" placeholder="Search for a patient...">
+                <button type="submit">Search</button>
+            </form>
         </div>
 
         <!-- Display patient records here -->
@@ -103,24 +91,13 @@
             <div class="patient-record">
                 <h2>{{ patient.name }}</h2>
                 <p><strong>Date of Birth:</strong> {{ patient.date_of_birth }}</p>
-
-                <!-- Display medical records for this patient -->
-                <h3>Medical Records:</h3>
-                <ul>
-                    {% for record in patient.medicalrecord_set.all %}
-                        <li>{{ record.title }} - {{ record.diagnosis }} - {{ record.date_created }}</li>
-                        <!-- Add other medical record details as needed -->
-                    {% endfor %}
-                </ul>
-
-                <!-- Links for editing patient and viewing medical records -->
-                <a href="{% url 'edit_patient' patient.id %}">Edit Patient</a>
-                <a href="{% url 'patient_detail' patient.id %}">View Medical Records</a>
-
-                <!-- Form for removing the patient -->
-                <form method="post" action="{% url 'remove_patient' patient.id %}">
+                <p><strong>Description:</strong> {{ patient.description }}</p>
+                <!-- Add other patient details as needed -->
+                <a href="{% url 'edit_patient' patient.id %}">Edit Details</a>
+                <a href="{% url 'patient_detail' patient.id %}">View Records</a>
+                <form method="post" action="{% url 'remove_patient' patient.id %}" style="display:inline;">
                     {% csrf_token %}
-                    <button type="submit">Remove</button>
+                    <button type="submit" style="background-color:red;color:white;border:none;padding:8px 12px;border-radius:5px;cursor:pointer;">Remove</button>
                 </form>
             </div>
         {% empty %}

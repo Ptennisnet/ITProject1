@@ -13,7 +13,7 @@ class Patient(models.Model):
 class MedicalRecord(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)  # Add a field for the title
-    description = models.TextField()  # Add a field for the description
+    description = models.TextField(blank=True, null=True)
     diagnosis = models.CharField(max_length=100)
     date_created = models.DateTimeField(default=timezone.now)
     # Other fields and methods here
