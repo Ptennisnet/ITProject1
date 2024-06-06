@@ -8,4 +8,9 @@ def signature_to_pem(encoded_cert):
         file.write(decoded_cert)
 
 
-signature_to_pem("Your Certificate Here")
+with open('input_file.txt', 'r') as input_file:
+    cert_data = input_file.read()
+
+signature_to_pem(cert_data)
+
+print("Decode complete.")

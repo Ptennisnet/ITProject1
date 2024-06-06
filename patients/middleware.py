@@ -9,10 +9,12 @@ class IHLInfoHeaderMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
 
-        response['X-IHL-Protection-Header'] = ('This digital infrastructure is protected under humanitarian law. '
-                                               'Any unauthorised interference with this digital system may be '
-                                               'prosecutable under Geneva Conventions IV Article 18. Please see the '
-                                               'certificate above for verification.')
+        directory = os.path.dirname(__file__)
+        plaintext_path = os.path.join(directory[:-8], 'IHLCertificate/plaintext_header.txt')
+        with open(plaintext_path, 'r') as plain_file:
+            header_content = plain_file.read()
+
+        response['X-IHL-Protection-Header'] = header_content
         return response
 
 
