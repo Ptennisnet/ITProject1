@@ -12,3 +12,5 @@ with open('input_file.txt', 'r') as input_file:
     cert_data = input_file.read()
 
 signature_to_pem(cert_data)
+
+print("Decode complete.")
